@@ -1,0 +1,10 @@
+llama-index-core
+llama-index-llms-ollama
+llama-index-embeddings-ollama
+llama-index-readers-docling
+docling
+fastapi
+uvicorn
+pydantic
+python-dotenv
+pypdf

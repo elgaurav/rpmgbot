@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPMG AI Assistant | Reliance Industries</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Reliance Inspired Theme */
+            --ril-gold: #D4AF37;
+            --ril-gold-hover: #b5952f;
+            --ril-black: #0F0F0F;
+            --ril-dark-blue: #002D62; /* Corporate Blue */
+            --bg-light: #F4F6F9;
+            --sidebar-width: 280px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            background-color: var(--bg-light);
+            overflow: hidden;
+        }
+
+        /* --- SIDEBAR (Left Panel) --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--ril-black);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            background: var(--ril-gold);
+            border-radius: 50%; /* Circle Logo Placeholder */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--ril-black);
+            font-size: 18px;
+        }
+
+        .brand-text h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+        }
+        .brand-text p {
+            font-size: 12px;
+            color: var(--ril-gold);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .menu-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #aaa;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background-color: rgba(212, 175, 55, 0.15);
+            color: var(--ril-gold);
+        }
+
+        /* --- MAIN CHAT AREA (Right Panel) --- */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            position: relative;
+        }
+
+        /* Header */
+        .chat-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid #eee;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title h3 {
+            font-size: 18px;
+            color: var(--ril-black);
+        }
+        .header-status {
+            font-size: 13px;
+            color: #28a745;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #28a745;
+            border-radius: 50%;
+        }
+
+        /* Chat Messages Area */
+        #chat-history {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: var(--bg-light);
+        }
+
+        /* Message Bubbles */
+        .message {
+            max-width: 75%;
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: 15px;
+            line-height: 1.5;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Bot Message */
+        .bot-message {
+            align-self: flex-start;
+            background-color: white;
+            border-left: 4px solid var(--ril-gold);
+            color: #333;
+            border-top-left-radius: 0;
+        }
+
+        /* User Message */
+        .user-message {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--ril-gold), #c49a30);
+            color: black;
+            font-weight: 500;
+            border-bottom-right-radius: 0;
+        }
+
+        /* Images in Chat */
+        .chat-image {
+            margin-top: 10px;
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            display: block;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .chat-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 20px 30px;
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            background: var(--bg-light);
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--ril-gold);
+            background: white;
+        }
+
+        button {
+            padding: 15px 30px;
+            background-color: var(--ril-black);
+            color: var(--ril-gold);
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background-color: #222;
+            transform: translateY(-2px);
+        }
+
+        /* Loading Animation */
+        .typing-indicator {
+            font-style: italic;
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 5px;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">R</div>
+            <div class="brand-text">
+                <h2>Reliance</h2>
+                <p>Project Mgmt</p>
+            </div>
+        </div>
+
+        <div class="menu-item active">
+            <span>💬</span> New Chat
+        </div>
+        <div class="menu-item">
+            <span>📂</span> My Documents
+        </div>
+        <div class="menu-item">
+            <span>⚙️</span> Settings
+        </div>
+
+        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid #333;">
+            <div class="menu-item">
+                <span>👤</span> Admin User
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="chat-header">
+            <div class="header-title">
+                <h3>RPMG AI Assistant</h3>
+                <span style="font-size: 12px; color: #888;">Powered by Llama 3.2 & Docling</span>
+            </div>
+            <div class="header-status">
+                <div class="status-dot"></div> Online
+            </div>
+        </div>
+
+        <div id="chat-history">
+            <div class="message bot-message">
+                Hello! I am the Reliance PMG Assistant. <br>
+                I can help you with <strong>Piping Materials, API 582, and Plot Plans.</strong><br>
+                Ask me a question below.
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Ask about piping standards, welding..." onkeypress="handleEnter(event)">
+            <button onclick="sendMessage()">
+                Send <span>➤</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const chatHistory = document.getElementById('chat-history');
+        const userInput = document.getElementById('user-input');
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        async function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            // 1. Add User Message
+            appendMessage(text, 'user-message');
+            userInput.value = '';
+
+            // 2. Show Loading
+            const loadingId = appendLoading();
+
+            try {
+                // 3. Call Backend
+                const response = await fetch('http://127.0.0.1:8000/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question: text })
+                });
+
+                const data = await response.json();
+                
+                // Remove Loading
+                document.getElementById(loadingId).remove();
+
+                // 4. Add Bot Response (Text)
+                // Convert newlines to <br> for better formatting
+                let formattedAnswer = data.answer.replace(/\n/g, "<br>");
+                
+                // 5. Add Images if they exist
+                if (data.images && data.images.length > 0) {
+                    formattedAnswer += "<br><br><strong>Reference Diagrams:</strong><br>";
+                    data.images.forEach(imgUrl => {
+                        formattedAnswer += `<img src="${imgUrl}" class="chat-image" alt="Extracted Diagram">`;
+                    });
+                }
+
+                appendMessage(formattedAnswer, 'bot-message', true);
+
+            } catch (error) {
+                document.getElementById(loadingId).remove();
+                appendMessage("Error connecting to server. Is the backend running?", 'bot-message');
+                console.error(error);
+            }
+        }
+
+        function appendMessage(text, className, isHTML = false) {
+            const div = document.createElement('div');
+            div.className = `message ${className}`;
+            if (isHTML) {
+                div.innerHTML = text;
+            } else {
+                div.textContent = text;
+            }
+            chatHistory.appendChild(div);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        function appendLoading() {
+            const id = 'loading-' + Date.now();
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = 'typing-indicator';
+            div.textContent = 'RPMG Assistant is thinking...';
+            div.style.display = 'block';
+            div.style.marginLeft = '30px';
+            chatHistory.appendChild(div);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+            return id;
+        }
+    </script>
+</body>
+</html>
