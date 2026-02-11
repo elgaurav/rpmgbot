@@ -1,6 +1,27 @@
-venv/
+# Python
 __pycache__/
 *.pyc
-backend/storage/
+*.pyo
+*.pyd
+venv/
 .env
+
+# HuggingFace cache
+backend/.cache/
+
+# Vector DB
+backend/qdrant_db/
+
+# Generated storage (LlamaIndex / RAG)
+backend/storage/
+
+# Generated static content
+backend/static/images/
+backend/static/pdfs/
+
+# Logs
+*.log
+
+# OS
 .DS_Store
+Thumbs.db

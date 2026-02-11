@@ -8,3 +8,25 @@ uvicorn
 pydantic
 python-dotenv
 pypdf
+# Core RAG Framework
+llama-index-core==0.11.0
+llama-index-embeddings-huggingface==0.3.1
+llama-index-llms-ollama==0.3.1
+
+# Document Processing
+docling==2.0.0
+docling-core==2.0.0
+
+# Vector Store (Much faster than default)
+llama-index-vector-stores-qdrant==0.3.0
+qdrant-client==1.11.0
+
+# API
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+python-multipart==0.0.12
+pydantic==2.9.0
+
+# Utilities
+python-dotenv==1.0.1
+Pillow==10.4.0
