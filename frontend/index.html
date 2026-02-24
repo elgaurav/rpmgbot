@@ -70,7 +70,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 20px;
+            padding: 18px;
             border-bottom: 1px solid rgba(212, 175, 55, 0.15);
             transition: var(--transition);
         }
@@ -78,16 +78,21 @@
         .brand-logo {
             width: 42px;
             height: 42px;
-            background: linear-gradient(135deg, var(--ril-gold), #c49a30);
-            border-radius: 10px;
+            background: white;  /* White background for logo image */
+            border-radius: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            color: var(--ril-black);
-            font-size: 20px;
             flex-shrink: 0;
             box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+            overflow: hidden;
+            padding: 1.5px;
+        }
+
+        .brand-logo img {
+            width: 230%;
+            height: 180%;
+            object-fit: contain;
         }
 
         .brand-text {
@@ -193,7 +198,7 @@
             overflow-x: hidden;
             padding: 15px;
             scrollbar-width: thin;
-            scrollbar-color: var(--ril-gold) transparent;
+            scrollbar-color: #c49a30 transparent;  /* White scrollbar */
         }
 
         .chat-history-section::-webkit-scrollbar {
@@ -205,7 +210,7 @@
         }
 
         .chat-history-section::-webkit-scrollbar-thumb {
-            background: var(--ril-gold);
+            background: white;  /* White scrollbar */
             border-radius: 10px;
         }
 
@@ -213,7 +218,7 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #666;
+            color: #999;  /* Lighter color for better contrast */
             margin-bottom: 10px;
             padding: 0 5px;
             font-weight: 600;
@@ -308,6 +313,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 24px;   /* Added explicit width */
+            height: 24px;  /* Added explicit height */
+        }
+
+        .chat-item-delete svg {
+            width: 16px;   /* Increased from 14px */
+            height: 16px;  /* Increased from 14px */
         }
 
         .chat-item:hover .chat-item-delete {
@@ -320,7 +332,7 @@
         }
 
         .user-section {
-            padding: 15px;
+            padding: 13px;
             border-top: 1px solid rgba(255,255,255,0.08);
         }
 
@@ -386,7 +398,7 @@
 
         /* HEADER IMAGE STYLING */
         .header-logo-img {
-            max-height: 85px;
+            max-height: 45px;
             max-width: 280px;
             height: auto;
             width: auto;
@@ -725,7 +737,7 @@
         }
 
         .input-area {
-            padding: 20px 30px;
+            padding: 15px 30px;
             background: white;
             border-top: 1px solid #e5e7eb;
             display: flex;
@@ -784,15 +796,26 @@
             transform: none;
         }
 
-        /* VOICE BUTTON */
+        /* VOICE BUTTON - Made 4px smaller */
         .voice-btn {
-            padding: 16px;
-            width: 56px;
+            padding: 12px;  /* Reduced from 16px */
+            width: 48px;    /* Reduced from 56px (4px smaller) */
+            height: 48px;   /* Added explicit height */
             background: linear-gradient(135deg, var(--ril-gold), #c49a30);
             color: var(--ril-black);
             border-radius: 50%;
             min-width: auto;
             flex-shrink: 0;
+        }
+
+        /* Black & White hover effect */
+        .voice-btn:hover:not(.recording) {
+            background: var(--ril-black);
+            color: white;
+        }
+
+        .voice-btn:hover:not(.recording) svg {
+            stroke: white;
         }
 
         .voice-btn.recording {
@@ -898,7 +921,11 @@
         </div>
 
         <div class="brand">
-            <div class="brand-logo">R</div>
+            <div class="brand-logo">
+                <img src="/static/img/Reliance_logo.jpg" 
+                     alt="Reliance" 
+                     onerror="this.parentElement.innerHTML='R'; this.parentElement.style.background='linear-gradient(135deg, var(--ril-gold), #c49a30)'; this.parentElement.style.color='var(--ril-black)'; this.parentElement.style.fontSize='20px'; this.parentElement.style.fontWeight='700';">
+            </div>
             <div class="brand-text">
                 <h2>Reliance</h2>
                 <p>Project Mgmt</p>
@@ -913,7 +940,7 @@
         </div>
 
         <div class="chat-history-section" id="chatHistoryList">
-            <div class="section-title">Recent Conversations</div>
+            <div class="section-title">Chat History</div>
         </div>
 
         <div class="user-section">
@@ -924,7 +951,7 @@
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                 </div>
-                <span class="user-name">User</span>
+                <span class="user-name">Rakshit Desai</span>
             </div>
         </div>
     </div>
@@ -933,7 +960,7 @@
         <div class="chat-header">
             <div class="header-title">
                 <!-- RPMG Logo Image - Update the src path to your image location -->
-                <img src="/static/images/rpmg-logo1.png" 
+                <img src="/static/img/rpmg-logo.png" 
                      alt="RPMG AI Assistant" 
                      class="header-logo-img"
                      onerror="this.style.display='none'; document.getElementById('header-fallback').classList.add('show');">
@@ -1076,11 +1103,11 @@
                 const historyList = document.getElementById('chatHistoryList');
                 
                 if (conversations.length === 0) {
-                    historyList.innerHTML = '<div class="section-title">Recent Conversations</div><div style="color: #888; font-size: 12px; padding: 10px;">No conversations yet</div>';
+                    historyList.innerHTML = '<div class="section-title">Chat History</div><div style="color: #888; font-size: 12px; padding: 10px;">No conversations yet</div>';
                     return;
                 }
 
-                let html = '<div class="section-title">Recent Conversations</div>';
+                let html = '<div class="section-title">Chat History</div>';
                 
                 conversations.forEach(conv => {
                     const date = new Date(conv.updated_at);
